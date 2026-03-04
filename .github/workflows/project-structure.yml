@@ -1,0 +1,87 @@
+# Project Structure Check
+# Runs on every push to verify essential project files exist
+# This is the first CI check — works even before firmware/IDE code is written
+
+name: Project Structure
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  check-structure:
+    name: Verify Project Files
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check essential files exist
+        run: |
+          echo "=== Checking essential project files ==="
+          PASS=true
+
+          check_file() {
+            if [ -f "$1" ]; then
+              echo "  ✓ $1"
+            else
+              echo "  ✗ $1 — MISSING"
+              PASS=false
+            fi
+          }
+
+          check_dir() {
+            if [ -d "$1" ]; then
+              echo "  ✓ $1/"
+            else
+              echo "  ✗ $1/ — MISSING"
+              PASS=false
+            fi
+          }
+
+          echo ""
+          echo "--- Root files ---"
+          check_file "CLAUDE.md"
+          check_file "README.md"
+          check_file "LICENSE"
+
+          echo ""
+          echo "--- CLAUDE.md hierarchy ---"
+          check_file "firmware/CLAUDE.md"
+          check_file "ide/CLAUDE.md"
+          check_file "hardware/CLAUDE.md"
+
+          echo ""
+          echo "--- Skill files ---"
+          check_file ".claude/skills/lego-compatibility-validation.md"
+          check_file ".claude/skills/ble-protocol.md"
+          check_file ".claude/skills/blockly-block-creation.md"
+          check_file ".claude/skills/sensor-driver-pattern.md"
+          check_file ".claude/skills/motor-control.md"
+
+          echo ""
+          echo "--- Documentation ---"
+          check_file "docs/plan.md"
+          check_file "docs/changelog.md"
+          check_file "docs/nfr-status.md"
+          check_file "docs/metrics.md"
+          check_file "docs/validation-log.md"
+          check_file "docs/safety-checklist.md"
+
+          echo ""
+          echo "--- Directories ---"
+          check_dir "docs/adr"
+          check_dir "firmware"
+          check_dir "ide"
+          check_dir "hardware"
+
+          echo ""
+          if [ "$PASS" = true ]; then
+            echo "=== All checks passed ✓ ==="
+          else
+            echo "=== Some files missing — see above ✗ ==="
+            exit 1
+          fi
