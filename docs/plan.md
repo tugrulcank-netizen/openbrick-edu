@@ -16,10 +16,11 @@ Goal: Development environment, CI/CD, documentation scaffolding, BOM procurement
 - [x] Create root CLAUDE.md with project instructions
 - [x] Create subdirectory CLAUDE.md files (firmware/, ide/, hardware/)
 - [x] Create 5 skill files in .claude/skills/
+- [x] Create docs/ scaffolding (plan, changelog, nfr-status, safety-checklist, validation-log, metrics)
+- [x] Set up GitHub Actions CI pipeline (project-structure, firmware-ci, ide-ci)
 
 ### In Progress
-- [ ] Create docs/ scaffolding (this file, changelog, nfr-status, safety-checklist, validation-log, metrics)
-- [ ] Create initial ADRs: ADR-001 connector type (RJ11 vs JST-PH), ADR-002 motor selection (Geekservo vs N20)
+- [] Create initial ADRs: ADR-001 connector type (RJ11 vs JST-PH), ADR-002 motor selection (Geekservo vs N20)
 
 ### Up Next
 - [ ] Set up GitHub Actions CI pipeline (lint + type-check placeholder)
@@ -100,4 +101,4 @@ Goal: Development environment, CI/CD, documentation scaffolding, BOM procurement
 
 _Write notes here at the end of each session so the next session has context._
 
-- **2026-03-04:** Repository created. CLAUDE.md hierarchy and all 5 skill files committed. Next task: create docs/ scaffolding files.
+- **2026-03-04:** Repository fully set up. CLAUDE.md hierarchy (root + 3 subdirectories), 5 skill files, and 6 docs scaffolding files all committed. GitHub Actions CI running — project-structure check passes green. Firmware-ci and ide-ci workflows ready but will only trigger when code is added to those folders. Next session: write ADR-001 (connector type) and ADR-002 (motor selection), then start initializing firmware and IDE folder structures.
