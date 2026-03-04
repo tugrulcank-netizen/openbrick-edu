@@ -118,50 +118,82 @@ Every OpenBrick EDU housing must meet these requirements to be LEGO-compatible:
 
 ---
 
-## 4. Printer Calibration Procedure
+## 4. Calibration and Print Service Workflow
 
-FDM printers vary significantly. The nominal LEGO dimensions will not work without calibration. **Always calibrate a new printer before printing functional parts.**
+> 🖨️ **Project constraint:** OpenBrick EDU is developed without an in-house 3D printer. All physical prints are ordered from Turkish online print services. This section describes the calibration workflow for that model.
 
-### 4.1 Calibration Jig
+### 4.1 Overview: How Calibration Works Without a Home Printer
+
+The goal is the same — find the dimensional offset needed for LEGO-compatible holes on the service's printer — but the workflow shifts from iterative home printing to a **two-order strategy:**
+
+1. **Order 1 — Calibration jig** (cheap, small): Confirm the default offset works, or find your offset.
+2. **Order 2+ — Functional parts**: Apply confirmed offset to all models.
+
+This costs a small amount upfront but prevents expensive reprints of full housings with wrong tolerances.
+
+### 4.2 Recommended Turkish 3D Print Services
+
+| Service | Website | Material | Notes |
+|---------|---------|----------|-------|
+| **Craftcloud Turkey** | craftcloud3d.com | PETG, PLA, resin | Instant quote; multiple fulfilment partners; good for prototypes |
+| **3dyazici.com** | 3dyazici.com | PLA, PETG | Turkish domestic; online order |
+| **printmarket.com.tr** | printmarket.com.tr | PLA, PETG, ABS | Turkish; online quote form |
+| **Local makerspace** | — | Varies | İzmir options: DEÜ / EGE / İYTE university makerspaces; İzmir FabLab | 
+
+> 💡 **Tip:** When requesting quotes, always specify **PETG material** and **0.2mm layer height** for structural housings. These are non-negotiable for LEGO compatibility and child-safety durability.
+
+### 4.3 Calibration Jig — Order First
 
 The calibration test jig is located at: `hardware/test-jigs/lego-calibration-jig.stl`
 
-The jig contains a series of pin holes at 0.1mm increments from 4.7mm to 5.5mm, and axle cross-holes from 5.4mm to 6.2mm. Print the jig, then test genuine LEGO pins and axles in each hole.
+The jig contains a series of pin holes at 0.1mm increments from 4.7mm to 5.5mm, and axle cross-holes from 5.4mm to 6.2mm. It is a small, flat part — cheap to print at any service.
 
-### 4.2 Finding Your Printer's Offset
+**Jig order specs to give the print service:**
+- Material: PETG (or PLA — calibration only, not structural)
+- Layer height: 0.2mm
+- Walls: 3
+- Infill: 20%
+- No supports needed
+- Print flat (longest face down)
+
+### 4.4 Finding the Offset After Receiving the Jig
 
 ```
-Step 1: Print the calibration jig at 0.2mm layer height, 3 walls, 20% infill.
+Step 1: Receive the jig from the print service.
 Step 2: Test a genuine LEGO Technic pin in each pin hole row.
 Step 3: Find the smallest hole where the pin inserts without force.
 Step 4: Find the largest hole where the pin stays in without falling out.
 Step 5: Your target hole diameter = midpoint of those two values.
-Step 6: Calculate offset = target - 4.9mm (nominal).
-Step 7: Apply this offset to all pin holes in your FreeCAD/OpenSCAD models.
-Step 8: Repeat for axle cross-holes (nominal 5.6mm).
-Step 9: Log your printer name and offsets in docs/validation-log.md.
+Step 6: Calculate offset = target − 4.9mm (nominal pin hole).
+Step 7: Apply this offset to PIN_HOLE_PRINTED in all OpenSCAD/FreeCAD models.
+Step 8: Repeat for axle cross-holes (nominal 5.6mm → AXLE_HOLE_PRINTED).
+Step 9: Log the service name, printer type (if known), and offsets in docs/validation-log.md.
+Step 10: Use these offset values for all subsequent orders from the same service.
 ```
 
-### 4.3 Typical Offset Values by Printer Type
+### 4.5 Expected Offset Values by Printer Type
+
+Most print services use Bambu Lab, Prusa, or Creality machines. Use these as a starting estimate if you want to skip the jig for a first functional print (not recommended, but acceptable for early breadboard-era housings).
 
 | Printer Type | Typical Pin Hole Offset | Typical Axle Hole Offset | Notes |
 |-------------|------------------------|--------------------------|-------|
-| Bambu Lab X1/P1 | +0.1 to +0.2 mm | +0.1 to +0.2 mm | Very consistent |
+| Bambu Lab X1/P1 (common at services) | +0.1 to +0.2 mm | +0.1 to +0.2 mm | Very consistent; best choice |
 | Prusa MK3/MK4 | +0.1 to +0.3 mm | +0.2 to +0.3 mm | Consistent after calibration |
-| Ender 3 (stock) | +0.2 to +0.4 mm | +0.3 to +0.4 mm | Higher variance; calibrate each print |
-| Resin (MSLA) | −0.1 to +0.1 mm | −0.1 to +0.1 mm | Much tighter; use nominal values |
+| Ender 3 / Creality (stock) | +0.2 to +0.4 mm | +0.3 to +0.4 mm | Higher variance; always use jig |
+| Resin (MSLA) | −0.1 to +0.1 mm | −0.1 to +0.1 mm | Tightest accuracy; use nominal values |
 
-> These are starting estimates only. Always measure your specific printer.
+> ⚠️ Ask the print service which printer they will use before ordering. If they can't or won't specify, order the calibration jig first.
 
-### 4.4 Material Shrinkage Notes
+### 4.6 Material Recommendations for Print Services
 
-| Material | Shrinkage | Recommendation |
-|----------|-----------|----------------|
-| PLA | ~0.3% | Acceptable for non-structural; limited temperature resistance |
-| PETG | ~0.5% | **Recommended for structural housings** — good temp resistance, toughness |
-| ABS | ~0.8% | Usable but warping risk; needs enclosure |
-| ASA | ~0.6% | Good UV resistance; good for outdoor use |
-| Resin | <0.1% | Excellent accuracy; brittle; not recommended for structural |
+When ordering, always specify one of these materials. Do not accept substitutions for structural housings.
+
+| Material | Shrinkage | Use For | Avoid For |
+|----------|-----------|---------|-----------|
+| **PETG** ✅ | ~0.5% | **All structural housings** — hub, motors, sensors | — |
+| PLA | ~0.3% | Calibration jigs, cosmetic parts only | Any load-bearing or heat-exposed parts |
+| ABS | ~0.8% | Acceptable if PETG unavailable | First choice (warping, fumes) |
+| Resin | <0.1% | High-detail cosmetic parts | Structural parts (brittle) |
 
 ---
 
@@ -262,6 +294,7 @@ Quick reference for designing around common Technic parts:
 | Date | Change | Author |
 |------|--------|--------|
 | 2026-03-05 | Initial version — all dimensions from project plan specs | AI-Assisted (Human-Approved) |
+| 2026-03-05 | v1.1 — Section 4 rewritten for external print service workflow (no in-house printer) | AI-Assisted (Human-Approved) |
 
 ---
 
