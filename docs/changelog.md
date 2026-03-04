@@ -13,3 +13,4 @@ All notable changes to this project are documented here.
 - Skill files: lego-compatibility-validation, ble-protocol, blockly-block-creation, sensor-driver-pattern, motor-control
 - docs/plan.md sprint plan
 - docs/ scaffolding (changelog, nfr-status, metrics, validation-log, safety-checklist)
+- Create initial ADRs: ADR-001 connector type (RJ11 vs JST-PH), ADR-002 motor selection (Geekservo vs N20)
