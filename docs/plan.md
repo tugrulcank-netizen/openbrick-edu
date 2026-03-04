@@ -18,9 +18,9 @@ Goal: Development environment, CI/CD, documentation scaffolding, BOM procurement
 - [x] Create 5 skill files in .claude/skills/
 - [x] Create docs/ scaffolding (plan, changelog, nfr-status, safety-checklist, validation-log, metrics)
 - [x] Set up GitHub Actions CI pipeline (project-structure, firmware-ci, ide-ci)
-
+- [x] Create initial ADRs: ADR-001 connector type (RJ11 vs JST-PH), ADR-002 motor selection (Geekservo vs N20)
 ### In Progress
-- [] Create initial ADRs: ADR-001 connector type (RJ11 vs JST-PH), ADR-002 motor selection (Geekservo vs N20)
+
 
 ### Up Next
 - [ ] Set up GitHub Actions CI pipeline (lint + type-check placeholder)
