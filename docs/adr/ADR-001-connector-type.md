@@ -1,51 +1,42 @@
-# ADR-001: I/O Port Connector Type
+# ADR-001: Sensor/Motor Port Connector Type
 
-**Date:** 2026-03-05
-**Status:** Accepted
-**Origin:** Human
+| Field  | Value |
+|--------|-------|
+| **ID** | ADR-001 |
+| **Date** | 2026-03 |
+| **Status** | Accepted |
+| **Origin** | Human |
 
 ## Context
 
-The OpenBrick EDU hub needs 6 I/O ports for connecting sensors and motors. We need a standard connector that is durable, kid-friendly (ages 10–14), affordable, and available from Turkish domestic suppliers. The connector must carry 4 signals: VCC (3.3V), GND, and 2 data lines (I2C SDA/SCL or GPIO).
+OpenBrick EDU requires a physical connector for the 6 sensor/motor ports on
+the hub. The connector must:
 
-LEGO's proprietary LPF2 connector is not an option — it is not available as a standalone part and replicating it would add cost and complexity.
+- Be available from Turkish domestic suppliers (Robotistan, Trendyol)
+- Support 4 signal lines (power, ground, data+, data−) at minimum
+- Fit inside a LEGO Technic-compatible housing (constrained by 8mm grid)
+- Be robust enough for repeated classroom connect/disconnect cycles
+- Be low-cost (target < $0.50 per port pair)
+- Not require soldering for end-user assembly
 
 ## Decision
 
-**Use RJ11 (6P4C) connectors for all sensor and motor I/O ports.**
+Use **RJ11 (6P4C)** connectors for all sensor and motor ports.
 
 ## Alternatives Considered
 
-### RJ11 (6P4C) — CHOSEN
-- 6-position, 4-conductor telephone-style jack
-- Very robust — rated for thousands of insertions, withstands cable yanking by children
-- Familiar form factor (phone cable) — easy for kids to plug and unplug
-- Standard phone cables are cheap and widely available (~$0.50–1.00 per cable)
-- Connectors cost ~$0.10–0.20 each
-- Available from Robotistan, local electronics shops, and AliExpress
-- Disadvantage: larger footprint than JST-PH, takes more PCB and housing space
-
-### JST-PH (4-pin)
-- Compact connector, saves PCB and housing space
-- Cheap (~$0.05–0.10 per connector)
-- Disadvantage: fragile locking tabs — can snap with rough handling by children
-- Disadvantage: small size makes alignment difficult for ages 10–14
-- Disadvantage: requires custom cables (not off-the-shelf)
-
-### JST-XH (4-pin)
-- Slightly larger than JST-PH, more robust
-- Still requires custom cables
-- Less kid-friendly than RJ11
+| Option | Reason Rejected |
+|--------|----------------|
+| JST-PH 4-pin | Harder to source domestically; smaller size makes classroom handling fiddly for ages 10–14 |
+| USB-C | Overkill for sensor lines; adds cost; occupies the dedicated USB-C port slot |
+| LEGO LPF2 (proprietary) | Requires reverse-engineering; legal risk; not available as off-the-shelf component |
+| 3.5mm audio jack (TRRS) | Only 4 contacts; no locking mechanism; not designed for repeated I2C/PWM signals |
+| Dupont/pin header | Not robust; pins bend; not suitable for student use |
 
 ## Consequences
 
-- All hub housings must accommodate the larger RJ11 jack footprint (~14mm × 10mm per port)
-- Standard 6P4C phone cables can be used — no custom cable manufacturing needed
-- The PCB layout needs 6 × RJ11 jacks; this will influence minimum hub size
-- Sensor and motor housings each need an RJ11 jack with strain relief
-- Pin assignment standard (documented in docs/lego-specs.md):
-  - Pin 1: VCC (3.3V)
-  - Pin 2: SDA / GPIO1
-  - Pin 3: SCL / GPIO2
-  - Pin 4: GND
-- An optional LPF2 adapter board can be designed post-MVP for users who own LEGO sensors/motors
+- **Positive:** RJ11 is widely stocked in Turkey; cheap; sturdy locking tab; 6P4C gives 4 usable conductors (power, ground, data+, data−); familiar to makers.
+- **Positive:** Stranded telephone cable can be used for custom sensor extensions.
+- **Negative:** RJ11 is not the smallest connector; sensor housings must accommodate it within the LEGO Technic grid.
+- **Negative:** Not compatible with LEGO LPF2 motors/sensors natively — an optional adapter board is planned post-MVP.
+- **Neutral:** Pin assignment (power/ground/SDA/SCL or PWM) must be documented and enforced consistently across all port types. See `docs/bom.md` for wiring standard.
