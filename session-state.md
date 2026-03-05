@@ -34,10 +34,12 @@ All deliverables done. Only open item: hardware not yet ordered.
 - 18 passing unit tests (12 HAL + 6 boot)
 - Phase 1 sprint plan: docs/plan.md (10 days)
 - 24 commits on main, CI green
+- MPU6050 IMU driver: firmware/drivers/mpu6050.py (24 unit tests, green)
+- ADR-003 (BLE GATT UUID scheme), ADR-004 (BLE protocol), ADR-005 (I2C injection pattern)
 
 ## Phase 1 Tasks
 
-- [ ] Day 1: MPU6050 IMU driver (TDD)
+- [x] Day 1: MPU6050 IMU driver (TDD)
 - [ ] Day 2: N20 motor driver with encoder (TDD)
 - [ ] Day 3: PID controller (TDD)
 - [ ] Day 4: BLE GATT service stub (TDD)
@@ -57,8 +59,7 @@ All deliverables done. Only open item: hardware not yet ordered.
 
 ## Decisions Needed
 
-- ADR-003: BLE GATT service UUID scheme
-- ADR-004: BLE framed binary protocol format
+
 
 ## Dev Environment
 

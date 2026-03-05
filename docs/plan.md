@@ -10,10 +10,10 @@
 ## Week 1: Firmware Core
 
 ### Day 1 -- MPU6050 IMU Driver
-- [ ] Write failing tests for IMU driver (test_imu.py)
-- [ ] Implement IMU driver (firmware/drivers/imu.py)
-- [ ] Verify: pytest firmware/tests/ all green
-- [ ] Commit: feat(firmware): add MPU6050 IMU driver with tests
+- [x] Write failing tests for IMU driver (test_imu.py)
+- [x] Implement IMU driver (firmware/drivers/imu.py)
+- [x] Verify: pytest firmware/tests/ all green
+- [x] Commit: feat(firmware): add MPU6050 IMU driver with tests
 
 ### Day 2 -- N20 Motor Driver
 - [ ] Write failing tests for motor driver (test_motor_n20.py)

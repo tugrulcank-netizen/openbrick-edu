@@ -1,6 +1,16 @@
+## [Unreleased]
+
+### 2026-03-06
+- feat(firmware): MPU6050 IMU driver (`firmware/drivers/mpu6050.py`) — 24 unit tests, all green
+- docs(adr): ADR-001 and ADR-002 updated with Origin field
+- docs(adr): ADR-003 added — BLE GATT UUID scheme
+- docs(adr): ADR-004 added — BLE framed binary protocol format
+- docs(adr): ADR-005 added — I2C bus injection pattern for sensor drivers
+
 ## Session 5 -- 2026-03-06
 
 ### Added
+
 - hardware/test-jigs: expanded calibration jig to 7 pin holes (4.7-5.3mm), re-exported STL
 - firmware/: full module folder structure (boot, ble, hal, drivers, executor, matrix, audio, storage, tests)
 - firmware/hal/sensor.py: Sensor base class
