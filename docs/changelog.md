@@ -1,3 +1,18 @@
+## Session 5 -- 2026-03-06
+
+### Added
+- hardware/test-jigs: expanded calibration jig to 7 pin holes (4.7-5.3mm), re-exported STL
+- firmware/: full module folder structure (boot, ble, hal, drivers, executor, matrix, audio, storage, tests)
+- firmware/hal/sensor.py: Sensor base class
+- firmware/hal/motor.py: Motor base class
+- firmware/boot/manager.py: BootManager class
+- firmware/tests/test_hal.py: 12 unit tests for HAL base classes
+- firmware/tests/test_boot.py: 6 unit tests for BootManager
+- docs/plan.md: Phase 1 sprint plan (10 days)
+
+### Tests
+- Firmware: 18/18 passing
+
 # OpenBrick EDU — Changelog
 
 All notable changes to this project are documented here.
