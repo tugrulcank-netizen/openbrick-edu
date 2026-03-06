@@ -162,7 +162,7 @@ describe('BleManager.disconnect()', () => {
   beforeEach(() => jest.clearAllMocks());
 
   it('transitions to disconnected state', async () => {
-    const { device } = makeConnectedManager();
+    makeConnectedManager();
     const mgr = new BleManager();
     await mgr.connect();
     await mgr.disconnect();
