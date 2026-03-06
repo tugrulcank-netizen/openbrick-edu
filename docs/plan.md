@@ -35,12 +35,12 @@
 - [x] Verify: pytest firmware/tests/ all green (113/113)
 - [x] Commit: feat(firmware): add BLE GATT service and protocol, 30 unit tests
 
-### Day 5 -- Firmware Integration + Buffer
-- [ ] Wire boot -> BLE -> HAL -> drivers together
-- [ ] Write integration test: boot sequence with mocked hardware
-- [ ] Run full firmware test suite + coverage check (target: 80%)
-- [ ] Fix any failing tests or coverage gaps
-- [ ] Commit: feat(firmware): integrate boot, BLE, HAL, drivers
+### Day 5 -- Firmware Integration + Buffer ✅ 2026-03-06
+- [x] Wire boot -> BLE -> HAL -> drivers together
+- [x] Write integration test: boot sequence with mocked hardware
+- [x] Run full firmware test suite + coverage check (target: 80%) — actual: 98%
+- [x] Fix any failing tests or coverage gaps
+- [x] Commit: feat(firmware): add PortManager and integration tests, 134/134 passing, 98% coverage
 
 ---
 
@@ -86,12 +86,12 @@
 _All resolved. ADR-003, ADR-004, ADR-005 written and committed._
 
 ## Handoff Notes
-_Days 1–4 complete. 113 firmware tests passing. Next: Day 5 firmware integration._
+_Days 1–5 complete. 134 firmware tests passing, 98% coverage. Next: Day 6 Web Bluetooth manager (IDE)._
 
 ## Metrics (update daily)
 | Metric | Target | Current |
 |--------|--------|---------|
-| Firmware test coverage | >= 80% | ~75% (113 tests, est.) |
+| Firmware test coverage | >= 80% | 98% (134 tests) |
 | IDE test coverage | >= 75% | 0% (scaffold only) |
 | CI pass rate | > 95% | 100% |
 | Commits | >= 1/day | on track |
