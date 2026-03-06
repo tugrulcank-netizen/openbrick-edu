@@ -155,7 +155,7 @@ export class BleManager {
       throw new Error('Not connected');
     }
     const wire = encodeFrame(frame);
-    await this._txChar.writeValueWithResponse(wire.buffer);
+    await this._txChar.writeValueWithResponse(wire.buffer as ArrayBuffer);
   }
 
   // ── Private handlers ──────────────────────────────────────────────────────────
