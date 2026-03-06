@@ -1,9 +1,7 @@
 # IDE CI Pipeline
 # Runs on every push and pull request
 # Checks: lint (ESLint), type-check (TypeScript), unit tests (Jest), build, bundle size
-
 name: IDE CI
-
 on:
   push:
     paths:
@@ -12,54 +10,47 @@ on:
   pull_request:
     paths:
       - 'ide/**'
-
 jobs:
   quality:
     name: Lint + Type Check + Test + Build
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-
       - name: Cache node_modules
         uses: actions/cache@v4
         with:
           path: ide/node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('ide/package-lock.json') }}
+          key: ${{ runner.os }}-node-v2-${{ hashFiles('ide/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-node-
-
+            ${{ runner.os }}-node-v2-
       - name: Install dependencies
         run: npm ci
         working-directory: ./ide
         if: hashFiles('ide/package.json') != ''
-
+      - name: Debug scripts
+        run: cat package.json
+        working-directory: ./ide
       - name: Lint (ESLint strict)
         run: npm run lint
         working-directory: ./ide
         if: hashFiles('ide/package.json') != ''
-
       - name: Type check (TypeScript strict)
         run: npm run type-check
         working-directory: ./ide
         if: hashFiles('ide/package.json') != ''
-
       - name: Unit tests (Jest) with coverage
         run: npm test -- --coverage --coverageThreshold='{"global":{"lines":75}}'
         working-directory: ./ide
         if: hashFiles('ide/package.json') != ''
-
       - name: Build
         run: npm run build
         working-directory: ./ide
         if: hashFiles('ide/package.json') != ''
-
       - name: Check bundle size
         run: |
           if [ -f ide/node_modules/.bin/size-limit ]; then
