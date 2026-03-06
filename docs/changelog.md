@@ -19,7 +19,10 @@ All notable changes to this project are documented here.
 - docs(adr): ADR-004 added — BLE framed binary protocol format
 - docs(adr): ADR-005 added — I2C bus injection pattern for sensor drivers
 
-**Firmware tests: 113/113 passing**
+- feat(firmware): PortManager (`firmware/hal/port_manager.py`) — owns all sensor/motor ports, orchestrates init_all() and deinit_all()
+- feat(firmware): Integration tests (`firmware/tests/test_integration.py`) — 21 tests covering boot→BLE→HAL→drivers full stack
+
+**Firmware tests: 134/134 passing | Coverage: 98%**
 
 ---
 
@@ -64,3 +67,14 @@ All notable changes to this project are documented here.
 - docs/plan.md sprint plan
 - docs/ scaffolding (changelog, nfr-status, metrics, validation-log, safety-checklist)
 - ADR-001 connector type (RJ11 vs JST-PH), ADR-002 motor selection (N20 with encoder)
+
+## Day 6 — 2026-03-07 (Web Bluetooth Manager)
+
+- feat(ide): `ide/src/ble/types.ts` — CMD constants, GATT UUIDs, BleFrame interface, callback types
+- feat(ide): `ide/src/ble/protocol.ts` — CRC-16/CCITT-FALSE, encodeFrame(), decodeFrame(); mirrors firmware/ble/protocol.py
+- feat(ide): `ide/src/ble/BleManager.ts` — Web Bluetooth state machine: disconnected→connecting→connected→disconnecting→disconnected
+- feat(ide): `ide/src/ble/index.ts` — barrel export
+- test(ide): 36 unit tests, 91% coverage
+- fix(ide): jsdom environment, TextEncoder polyfill, tsconfig types, coverage scoping
+
+**IDE BLE tests: 36/36 passing | Coverage: 91% | CI: green**
