@@ -20,6 +20,13 @@ PWM frequency: 20kHz (above audible range, reduces motor whine).
 """
 
 from hal.motor import Motor
+from drivers.pid import PID
+
+# Default PID gains for N20 angle positioning (starting point — tune on hardware)
+_DEFAULT_KP = 1.5
+_DEFAULT_KI = 0.05
+_DEFAULT_KD = 0.02
+_DEFAULT_INTEGRAL_LIMIT = 50.0
 
 PWM_FREQ_HZ  = 20_000
 PWM_MAX      = 65535   # 16-bit full duty
@@ -60,6 +67,14 @@ class MotorN20(Motor):
         self._enc_b         = enc_b
         self._counts_per_rev = counts_per_rev
         self._encoder_count  = 0
+        self._pid = PID(
+            kp=_DEFAULT_KP,
+            ki=_DEFAULT_KI,
+            kd=_DEFAULT_KD,
+            output_min=-100,
+            output_max=100,
+            integral_limit=_DEFAULT_INTEGRAL_LIMIT,
+        )
 
     # ------------------------------------------------------------------
     # Motor interface
@@ -165,3 +180,22 @@ class MotorN20(Motor):
             self._encoder_count += 1
         else:
             self._encoder_count -= 1
+
+    def run_to_angle(self, target: float, dt: float) -> float:
+        """Drive motor toward target angle using PID control.
+
+        Call this method at a fixed interval (dt seconds) from a control loop.
+        Returns the PID output (speed -100 to 100) applied this step.
+
+        Raises RuntimeError if init() has not been called.
+        """
+        if not self._initialized:
+            raise RuntimeError("MotorN20 not initialised. Call init() first.")
+
+        speed = self._pid.compute(
+            setpoint=target,
+            measurement=self.angle(),
+            dt=dt,
+        )
+        self.run(int(speed))
+        return speed
